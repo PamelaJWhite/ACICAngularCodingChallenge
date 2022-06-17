@@ -6,8 +6,10 @@ import { LineOfBusiness } from './LineOfBusiness';
   providedIn: 'root',
 })
 export class InMemoryDataService implements InMemoryDbService {
+  // ?looks like a database
   createDb() {
     const linesOfBusiness = [
+      // ? my element is going to hold the two most popular of these, by name
       { id: 11, name: 'General Liability', description: 'Liability coverage for businesses.' },
       { id: 12, name: 'Commercial Property', description: 'Property coverage for businesses.' },
       { id: 13, name: 'Inland Marine', description: 'Coverage for tools and machinery on job sites.' },
@@ -17,6 +19,8 @@ export class InMemoryDataService implements InMemoryDbService {
 
 
     const recentQuotes = [
+      // ? and I'll use this to find the 2 most popular
+      // and sum them
       { id: 101, quoteNumber: 'AC123PC', lineOfBusiness: 11 },
       { id: 102, quoteNumber: 'AC124PC', lineOfBusiness: 12 },
       { id: 103, quoteNumber: 'AC125PC', lineOfBusiness: 13 },

@@ -1,0 +1,7 @@
+<h2>This Will Not Be An h2 But Something Smaller</h2>
+<div>
+  <a *ngFor="let lineOfBusiness of linesOfBusiness"
+      routerLink="/detail/{{lineOfBusiness.id}}">
+      {{lineOfBusiness.name}}
+  </a>
+</div>
