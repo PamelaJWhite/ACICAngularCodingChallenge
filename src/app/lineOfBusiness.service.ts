@@ -61,8 +61,8 @@ export class LineOfBusinessService {
     }
     return this.http.get<LineOfBusiness[]>(`${this.lineOfBusinessUrl}/?name=${term}`).pipe(
       tap(x => x.length ?
-         this.log(`found line of business matching "${term}"`) :
-         this.log(`no lines of business matching "${term}"`)),
+        this.log(`found line of business matching "${term}"`) :
+        this.log(`no lines of business matching "${term}"`)),
       catchError(this.handleError<LineOfBusiness[]>('searchLinesOfBusiness', []))
     );
   }

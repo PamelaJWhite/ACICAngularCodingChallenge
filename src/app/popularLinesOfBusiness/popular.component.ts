@@ -3,6 +3,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LineOfBusiness } from '../LineOfBusiness';
 import { LineOfBusinessService } from '../lineOfBusiness.service';
 
+import { RecentQuote } from '../RecentQuote';
+import { RecentQuotesService } from '../recentQuotes.service';
+
 
 // a component decorator
 @Component({
@@ -25,63 +28,89 @@ import { LineOfBusinessService } from '../lineOfBusiness.service';
 //? like a JS function that is exported?
 //implements ngOnInit is a lifecycle hook
 export class PopularLinesOfBusinessComponent implements OnInit {
-  title = 'yup yup yup this is my space, only cooler';
+  //this is just here as practice; i'm a bit attached to it, so I haecn't deleted it yet
+  // title = 'yup yup yup this is my space, only cooler';
+
+  //these are the properties I want to use/ show in HTML
   firstPopular = "First Most Popular"
   secondPopular = "Second Most Popular"
-  //this is likely NOT where I should call displaySums(), but it works
-  itWorks = this.displaySums();
   firstFreq;
   secondFreq;
 
-  
-  displaySums(){
+   //this is likely NOT where I should call displaySums(), but it works
+  itWorks = this.displayFreq();
+
+  //a function to show two frequencies
+  displayFreq(){
     // let array = [1, 3, 6,]
     
     // return array[0]
     this.firstFreq = 8;
     this.secondFreq = 2;
   }
-  //-----------playing with data - https://www.techiediaries.com/angular-inmemory-web-api/ tutorial----
 
-  // import { Component, OnInit } from '@angular/core';
-  // import { PolicyService } from './policy.service';
+  // ----GET recent quotes data ----
 
-  // @Component({
-  //   selector: 'app-contact-list',
-  //   templateUrl: './contact-list.component.html',
-  //   styleUrls: ['./contact-list.component.css']
-  // })
-  // export class PolicyListComponent implements OnInit {
-     //  all the guts are below
-  // }
-
-  //   policies: any[] = [];
-  // ? difference between any and LineOfBusiness is that LineOfBusiness is deconstructed? organized? already does something to the data?
-  linesOfBusiness: LineOfBusiness[] = [];
-
+  quotes: RecentQuote[] = [];
 
   //   constructor(private policyService: PolicyService) { }
-  constructor(private lineOfBusinessService: LineOfBusinessService) { } 
+  constructor(private recentQuotesService: RecentQuotesService) { } 
 
-
-  //   ngOnInit() {
-  //     this.policyService.getPolicies().subscribe((data : any[])=>{
-  //         console.log(data);
-  //         this.policies = data;
-  //     })
-  //   }
+ 
   ngOnInit() {
-    this.lineOfBusinessService.getLinesOfBusiness().subscribe((data: LineOfBusiness[])=> {
+    this.recentQuotesService.getRecentQuotes().subscribe((data: RecentQuote[])=> {
       console.log("data, oh please be data:", data)
     })
   }
 
-  // ? like a for loop? for all linesOfBussness gotten...?
-  // ? or more like a get to the backend ?
-  getLinesOfBusiness(): void {
-    this.lineOfBusinessService.getLinesOfBusiness()
-    .subscribe(linesOfBusiness => this.linesOfBusiness = linesOfBusiness);
-  }
+  // getRecentQuote(): void {
+  //   this.recentQuotesService.getRecentQuotes()
+  //   .subscribe(recentQuote => this.recentQuote = recentQuote);
+  // }
+
+  //-----------playing with data - https://www.techiediaries.com/angular-inmemory-web-api/ tutorial----
+  // // ----GET lines of business data ----
+  // // import { Component, OnInit } from '@angular/core';
+  // // import { PolicyService } from './policy.service';
+
+  // // @Component({
+  // //   selector: 'app-contact-list',
+  // //   templateUrl: './contact-list.component.html',
+  // //   styleUrls: ['./contact-list.component.css']
+  // // })
+  // // export class PolicyListComponent implements OnInit {
+  //    //  all the guts are below
+  // // }
+
+  // //   policies: any[] = [];
+  // // ? difference between any and LineOfBusiness is that LineOfBusiness is deconstructed? organized? already does something to the data?
+  // linesOfBusiness: LineOfBusiness[] = [];
+
+  // //   constructor(private policyService: PolicyService) { }
+  // constructor(private lineOfBusinessService: LineOfBusinessService) { } 
+
+  // //   ngOnInit() {
+  // //     this.policyService.getPolicies().subscribe((data : any[])=>{
+  // //         console.log(data);
+  // //         this.policies = data;
+  // //     })
+  // //   }
+  // ngOnInit() {
+  //   this.lineOfBusinessService.getLinesOfBusiness().subscribe((data: LineOfBusiness[])=> {
+  //     console.log("data, oh please be data:", data)
+  //   })
+  // }
+
+  // // ? like a for loop? for all linesOfBussness gotten...?
+  // // ? or more like a get to the backend ?
+  // getLinesOfBusiness(): void {
+  //   this.lineOfBusinessService.getLinesOfBusiness()
+  //   .subscribe(linesOfBusiness => this.linesOfBusiness = linesOfBusiness);
+  // }
+
+
+
+
 
   //------------playing with methods - tutorial
   getMin(firstNum, secondNum){
