@@ -14,7 +14,8 @@ import { LineOfBusinessService } from '../lineOfBusiness.service';
   styleUrls: [ './dashboard.component.css' ]
 })
 
-//? like a JS function that is exported?
+//? like a JS or JSX function that is exported?
+//?linesOfBusiness is a property, and maybe the value of this property is the array of data in LineOfBusiness component?
 export class DashboardComponent implements OnInit {
   linesOfBusiness: LineOfBusiness[] = [];
 
