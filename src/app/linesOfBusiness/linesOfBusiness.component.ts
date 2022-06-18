@@ -18,6 +18,7 @@ export class LineOfBusinessComponent implements OnInit {
   }
 
   // ? like a for loop? for all linesOfBussness gotten...?
+  // ? or more like a get to the backend ?
   getLinesOfBusiness(): void {
     this.lineOfBusinessService.getLinesOfBusiness()
     .subscribe(linesOfBusiness => this.linesOfBusiness = linesOfBusiness);
