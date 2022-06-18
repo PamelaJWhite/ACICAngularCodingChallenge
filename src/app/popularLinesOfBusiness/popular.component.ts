@@ -46,8 +46,11 @@ export class PopularLinesOfBusinessComponent implements OnInit {
     
     // return array[0]
     this.firstFreq = 8;
-    this.secondFreq = 2;
+    this.secondFreq = 9;
   }
+
+  // ---- function for counting frequency of each line of business
+  
 
   // ----GET recent quotes data ----
 
@@ -55,59 +58,47 @@ export class PopularLinesOfBusinessComponent implements OnInit {
 
   //   constructor(private policyService: PolicyService) { }
   constructor(private recentQuotesService: RecentQuotesService) { } 
+  countFreq(data) {
+    // create variables to hold frequency of each line of business
+    let generalLiability : number = 0;
+    let commercialProperty : number = 0;
+    let inlandMarine: number = 0;
+    let oceanMarine: number = 0;
+    let garage : number = 0;
 
- 
+    for(let i = 0;i< data.length ;i++) {
+      if(data[i].lineOfBusiness == 11 ){
+        generalLiability = generalLiability +1;
+        console.log("generalLiability inside: ", generalLiability)
+      }if(data[i].lineOfBusiness == 12 ) {
+        commercialProperty = commercialProperty +1
+        console.log("commercialProperty inside: ", commercialProperty)
+      }if(data[i].lineOfBusiness == 13 ) {
+        inlandMarine = inlandMarine +1
+        console.log("inlandMarine inside: ", inlandMarine)
+      }if(data[i].lineOfBusiness == 14 ) {
+        oceanMarine = oceanMarine +1
+        console.log("oceanMarine inside: ", oceanMarine)
+      }if(data[i].lineOfBusiness == 15 ) {
+        garage = garage +1
+        console.log("garage inside: ", garage)
+      }
+      
+    }
+    
+    return console.log(" in countFreq() return")
+  }
   ngOnInit() {
     this.recentQuotesService.getRecentQuotes().subscribe((data: RecentQuote[])=> {
-      console.log("data, oh please be data:", data)
+      console.log("data, oh please be quote data:", data)
+      //count up each of the lines of business
+      this.countFreq(data)
+  
     })
   }
 
-  // getRecentQuote(): void {
-  //   this.recentQuotesService.getRecentQuotes()
-  //   .subscribe(recentQuote => this.recentQuote = recentQuote);
-  // }
 
-  //-----------playing with data - https://www.techiediaries.com/angular-inmemory-web-api/ tutorial----
-  // // ----GET lines of business data ----
-  // // import { Component, OnInit } from '@angular/core';
-  // // import { PolicyService } from './policy.service';
-
-  // // @Component({
-  // //   selector: 'app-contact-list',
-  // //   templateUrl: './contact-list.component.html',
-  // //   styleUrls: ['./contact-list.component.css']
-  // // })
-  // // export class PolicyListComponent implements OnInit {
-  //    //  all the guts are below
-  // // }
-
-  // //   policies: any[] = [];
-  // // ? difference between any and LineOfBusiness is that LineOfBusiness is deconstructed? organized? already does something to the data?
-  // linesOfBusiness: LineOfBusiness[] = [];
-
-  // //   constructor(private policyService: PolicyService) { }
-  // constructor(private lineOfBusinessService: LineOfBusinessService) { } 
-
-  // //   ngOnInit() {
-  // //     this.policyService.getPolicies().subscribe((data : any[])=>{
-  // //         console.log(data);
-  // //         this.policies = data;
-  // //     })
-  // //   }
-  // ngOnInit() {
-  //   this.lineOfBusinessService.getLinesOfBusiness().subscribe((data: LineOfBusiness[])=> {
-  //     console.log("data, oh please be data:", data)
-  //   })
-  // }
-
-  // // ? like a for loop? for all linesOfBussness gotten...?
-  // // ? or more like a get to the backend ?
-  // getLinesOfBusiness(): void {
-  //   this.lineOfBusinessService.getLinesOfBusiness()
-  //   .subscribe(linesOfBusiness => this.linesOfBusiness = linesOfBusiness);
-  // }
-
+  
 
 
 
