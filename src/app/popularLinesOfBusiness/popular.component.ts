@@ -5,28 +5,40 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 
 
 // a component decorator
-// @Component({
-//   selector: 'app-popular',
-//   // templateUrl is used for separate file
-//   templateUrl: './popular.component.html',
-//   styleUrls: [ './popular.component.css' ]
-// })
+@Component({
+  selector: 'app-popular',
+  // templateUrl is used for separate file
+  templateUrl: './popular.component.html',
+  styleUrls: [ './popular.component.css' ]
+})
 
 //practice component decorator
-@Component({
-    selector: 'app-popular',
-      // template is used for HTML within the component
-      // include the title property (created below) in the html
-    template: '<h1> {{title}} </h1>',
-    styles: [``]
+// @Component({
+//     selector: 'app-popular',
+//       // template is used for HTML within the component
+//       // include the title property (created below) in the html
+//     template: '<h1> {{title}} </h1>',
+//     styles: [``]
 
-})
+// })
 
 //? like a JS function that is exported?
 //implements ngOnInit is a lifecycle hook
 export class PopularLinesOfBusinessComponent implements OnInit, OnDestroy {
   title = 'yup yup yup this is my space, only cooler';
+  firstPopular = "First Most Popular"
+  secondPopular = "Second Most Popular"
+  firstSum = 8
+  secondSum = 2
 
+
+  getMin(firstNum, secondNum){
+    if(firstNum < secondNum){
+      // console.log("in getMin: ", firstNum, "is less than", secondNum)
+      return firstNum
+    }
+    return secondNum
+  }
   // // ----------------life cycle function from tutorial:-----------
   //function for logging some values to the console
   // ? is this like declaring a function?
