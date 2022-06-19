@@ -82,19 +82,19 @@ export class PopularLinesOfBusinessComponent implements OnInit {
     for(let i = 0;i< data.length ;i++) {
       if(data[i].lineOfBusiness == 11 ){
         dataObj.generalLiability = dataObj.generalLiability +1;
-        console.log("generalLiability inside: ", dataObj.generalLiability)
+        // console.log("generalLiability inside: ", dataObj.generalLiability)
       }if(data[i].lineOfBusiness == 12 ) {
         dataObj.commercialProperty = dataObj.commercialProperty +1
-        console.log("commercialProperty inside: ", dataObj.commercialProperty)
+        // console.log("commercialProperty inside: ", dataObj.commercialProperty)
       }if(data[i].lineOfBusiness == 13 ) {
         dataObj.inlandMarine = dataObj.inlandMarine +1
-        console.log("inlandMarine inside: ", dataObj.inlandMarine)
+        // console.log("inlandMarine inside: ", dataObj.inlandMarine)
       }if(data[i].lineOfBusiness == 14 ) {
         dataObj.oceanMarine = dataObj.oceanMarine +1
-        console.log("oceanMarine inside: ", dataObj.oceanMarine)
+        // console.log("oceanMarine inside: ", dataObj.oceanMarine)
       }if(data[i].lineOfBusiness == 15 ) {
         dataObj.garage = dataObj.garage +1
-        console.log("garage inside: ", dataObj.garage)
+        // console.log("garage inside: ", dataObj.garage)
       }
     }
     
@@ -107,21 +107,31 @@ export class PopularLinesOfBusinessComponent implements OnInit {
   freqCountArr = Object.entries(freqCountArr)
     
   console.log("freqCountArr after Object.entries: ", freqCountArr)
-  // Go through each key in the bigObject:
   
+  let sorted =freqCountArr.sort((a, b) => b[1] - a[1])
+
+  console.log("sorted after sort: ", sorted)
+  console.log("is this first business: ", sorted[0][0])
+  this.firstPopular = sorted[0][0]
+  this.secondPopular = sorted[1][0]
+  this.firstFreq = sorted[0][1]
+  this.secondFreq = sorted[1][1]
+
+  // ----gets Only Highest
   // hold the first object in the array, to be able to compare to it
-  this.compareArr = freqCountArr[0]
-  console.log("this.compareArr before loop: ", this.compareArr)
-  for (let i = 0; i < freqCountArr.length; i++){
-    // if the value of the current second value is more than the this.compareArr 2nd value
-    if (freqCountArr[i][1] > this.compareArr[1] ) {
-      // console.log(freqCountArr[i])
-      // redefine this.compareArr as the current array
-      this.compareArr = freqCountArr[i]
+  // this.compareArr = freqCountArr[0]
+  // console.log("this.compareArr before loop: ", this.compareArr)
+  // for (let i = 0; i < freqCountArr.length; i++){
+  //   // if the value of the current second value is more than the this.compareArr 2nd value
+  //   if (freqCountArr[i][1] > this.compareArr[1] ) {
+  //     // console.log(freqCountArr[i])
+  //     // redefine this.compareArr as the current array
+  //     this.compareArr = freqCountArr[i]
     
-    }
-  }
-  console.log("compareObject end of findTwoHighest: ", this.compareArr)
+  //   }
+  // }
+  // console.log("compareObject end of findTwoHighest: ", this.compareArr)
+  ///----END gets Only Highest
   // this.firstFreq = this.compareArr[1]
   return this.compareArr
 }
@@ -135,7 +145,7 @@ export class PopularLinesOfBusinessComponent implements OnInit {
  
   ngOnInit() {
     this.recentQuotesService.getRecentQuotes().subscribe((data: RecentQuote[])=> {
-      console.log("data, oh please be quote data:", data)
+      // console.log("data, oh please be quote data:", data)
       //count up each of the lines of business
       // this.countFreq(data)
   
@@ -144,18 +154,14 @@ export class PopularLinesOfBusinessComponent implements OnInit {
     //   "skeleton key" : 8,
     //   "car key": 2
     // }
-      //take the object from countFreq
-      this.firstFreq = this.findTwoHighest(this.countFreq(data))[1]
-      this.firstPopular = this.findTwoHighest(this.countFreq(data))[0]
+      //when findTwoHighest only finds highest: 
+      // this.firstFreq = this.findTwoHighest(this.countFreq(data))[1]
+      // this.firstPopular = this.findTwoHighest(this.countFreq(data))[0]
+
+      this.findTwoHighest(this.countFreq(data))
   
     })
   }
-
-
-  
-
-
-
 
   //------------playing with methods - tutorial
   getMin(firstNum, secondNum){
