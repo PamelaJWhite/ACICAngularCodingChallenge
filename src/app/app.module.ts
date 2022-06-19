@@ -38,7 +38,7 @@ import { PopularLinesOfBusinessComponent } from './popularLinesOfBusiness/popula
     LineOfBusinessComponent,
     LineOfBusinessSearchComponent,
     MessagesComponent, 
-    // added my component to those available to use
+    // added Popular component to those available to use
     PopularLinesOfBusinessComponent
   ],
   bootstrap: [ AppComponent ]
