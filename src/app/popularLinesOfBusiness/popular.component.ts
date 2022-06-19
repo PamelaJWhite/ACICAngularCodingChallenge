@@ -49,23 +49,20 @@ export class PopularLinesOfBusinessComponent implements OnInit {
     this.secondFreq = 9;
   }
 
-  // ---- function for counting frequency of each line of business
-  
-
-  // ----GET recent quotes data ----
-
-  quotes: RecentQuote[] = [];
-
-  //   constructor(private policyService: PolicyService) { }
-  constructor(private recentQuotesService: RecentQuotesService) { } 
+  // ---- count frequency of each line of business
   countFreq(data) {
     // create variables to hold frequency of each line of business
+    //likely need to change this to an object to return the whole thing
     let generalLiability : number = 0;
     let commercialProperty : number = 0;
     let inlandMarine: number = 0;
     let oceanMarine: number = 0;
     let garage : number = 0;
+    
 
+    // loop over quote data
+    //for each line, increase count in  corresponding line of business variable
+    //maybe change this to a switch statement for brevity
     for(let i = 0;i< data.length ;i++) {
       if(data[i].lineOfBusiness == 11 ){
         generalLiability = generalLiability +1;
@@ -83,16 +80,56 @@ export class PopularLinesOfBusinessComponent implements OnInit {
         garage = garage +1
         console.log("garage inside: ", garage)
       }
-      
     }
     
     return console.log(" in countFreq() return")
+  } 
+
+  
+  // find two 
+  findTwoHighest(){
+    let freqCountArr = [
+      {"house key" : 4},
+      {"skeleton key" : 8},
+      {"car key" : 2}
+    ]
+  
+  // hold the first object in the array, to be able to compare to it
+  let compareObject = freqCountArr[0]
+  for (let i = 0; i < freqCountArr.length; i++){
+    // if the value of the current object is more than the value of the compareObject
+    if (Object.values(freqCountArr[i])[0] > Object.values(compareObject)[0] ) {
+      console.log(Object.values(freqCountArr[i])[0])
+      // redefine compareObject as the current object
+      compareObject = freqCountArr[i]
+      console.log("begin value: ", compareObject)
+    }
   }
+  console.log("compareObject end of findTwoHighest: ", compareObject)
+  return compareObject
+}
+
+
+
+
+
+    
+  
+
+  // ----GET recent quotes data ----
+
+  quotes: RecentQuote[] = [];
+
+  //   constructor(private policyService: PolicyService) { }
+  constructor(private recentQuotesService: RecentQuotesService) { } 
+ 
   ngOnInit() {
     this.recentQuotesService.getRecentQuotes().subscribe((data: RecentQuote[])=> {
       console.log("data, oh please be quote data:", data)
       //count up each of the lines of business
       this.countFreq(data)
+      //take the object from countFreq
+      this.findTwoHighest()
   
     })
   }
