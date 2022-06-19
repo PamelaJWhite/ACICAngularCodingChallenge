@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
+import { LineOfBusiness } from './LineOfBusiness';
 
 import { RecentQuote } from './RecentQuote';
 import { MessageService } from './message.service';
@@ -13,6 +14,10 @@ import { MessageService } from './message.service';
 export class RecentQuotesService {
 
   private recentQuotesUrl = 'api/recentQuotes';  // URL to web api
+
+  // // ! try adding this to access lines of Business, too
+  // private lineOfBusinessUrl = 'api/linesOfBusiness';  // URL to web api
+  
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -30,6 +35,17 @@ export class RecentQuotesService {
         catchError(this.handleError<RecentQuote[]>('getRecentQuotes', []))
       );
   }
+
+  // // ! added/ copied GET request from lineOf Business service
+  // /** GET lines of business from the server */
+  // getLinesOfBusiness(): Observable<LineOfBusiness[]> {
+  //   return this.http.get<LineOfBusiness[]>(this.lineOfBusinessUrl)
+  //     .pipe(
+  //       tap(_ => this.log('fetched lines of business')),
+  //       catchError(this.handleError<LineOfBusiness[]>('getLinesOfBusiness', []))
+  //     );
+  // }
+  // // ------end add/ copy
 
 
   /**

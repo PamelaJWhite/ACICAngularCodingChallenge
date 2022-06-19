@@ -1,3 +1,4 @@
+import { keyframes } from '@angular/animations';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { LineOfBusiness } from '../LineOfBusiness';
@@ -28,30 +29,52 @@ export class PopularLinesOfBusinessComponent implements OnInit {
   secondFreq;
 
   // ---- count frequency of each line of business
-  countFreq(data) {
-  
-    let dataObj = {
-    generalLiability : 0,
-    commercialProperty : 0,
-    inlandMarine: 0,
-    oceanMarine: 0,
-    garage : 0,
+  countFreq(data: any, busData: any) {
+    console.log("who's driving the busData? ", busData)
+
+    //instad of hard-coding this dataObj,
+    //I want to create it from busData
+
+    //declare dataObj as an empty object
+    let dataObj : [] = [];
+    //loop over busData
+    for (let i= 0; i < busData.length; i++){
+      let name: string = busData[i].name
+      //create key value pair for dataObj
+      dataObj[name] = 0; 
     }
+    console.log("dataObj2: ", dataObj)
+
+    // // hard-coded
+    // let dataObj = {
+    // generalLiability : 0,
+    // commercialProperty : 0,
+    // inlandMarine: 0,
+    // oceanMarine: 0,
+    // garage : 0,
+    // }
 
     // loop over quote data
     //for each line, increase count in value of corresponding business property
     //maybe change this to a switch statement for brevity
     for(let i = 0;i< data.length ;i++) {
+
+      //this may need a loop inside a loop
+      //if the data[i].lineOfBusiness == busData[j].id 
+      //then add 1 to
+      //dataObj[busData[j].name]
+      //may have hard time finding how to get the variable busData[j].name
       if(data[i].lineOfBusiness == 11 ){
-        dataObj.generalLiability = dataObj.generalLiability +1;
+        // dataObj.generalLiability = dataObj.generalLiability +1;
+        
       }if(data[i].lineOfBusiness == 12 ) {
-        dataObj.commercialProperty = dataObj.commercialProperty +1
+        // dataObj.commercialProperty = dataObj.commercialProperty +1
       }if(data[i].lineOfBusiness == 13 ) {
-        dataObj.inlandMarine = dataObj.inlandMarine +1
+        // dataObj.inlandMarine = dataObj.inlandMarine +1
       }if(data[i].lineOfBusiness == 14 ) {
-        dataObj.oceanMarine = dataObj.oceanMarine +1
+        // dataObj.oceanMarine = dataObj.oceanMarine +1
       }if(data[i].lineOfBusiness == 15 ) {
-        dataObj.garage = dataObj.garage +1
+        // dataObj.garage = dataObj.garage +1
       }
     }
     return dataObj
@@ -59,9 +82,9 @@ export class PopularLinesOfBusinessComponent implements OnInit {
 
   // ------- find the two most popular
 
-  findTwoHighest(freqCountArr){
+  findTwoHighest(freqCountArr) {
     // convert the data object to an array of arrays
-    freqCountArr = Object.entries(freqCountArr)
+    freqCountArr = Object.entries
     
     // define sorted variable
     let sorted =freqCountArr.sort((a, b) => b[1] - a[1])
@@ -78,13 +101,37 @@ export class PopularLinesOfBusinessComponent implements OnInit {
   // ----GET recent quotes data ----
   quotes: RecentQuote[] = [];
 
-  constructor(private recentQuotesService: RecentQuotesService) { } 
+  // to structure? access?
+  linesOfBusiness: LineOfBusiness[] = [];
+
+
+  constructor(
+    private recentQuotesService: RecentQuotesService,
+    private lineOfBusinessService: LineOfBusinessService
+  ) { } 
+  
+
 
   ngOnInit() {
+    let quoteData: any;
+    let businessData: any;
     this.recentQuotesService.getRecentQuotes().subscribe((data: RecentQuote[])=> {
-    
-      this.findTwoHighest(this.countFreq(data))
+      quoteData = data;
+      // console.log("quoteData outside: ", quoteData)
+      // this.findTwoHighest(this.countFreq(quoteData))
+      
+      // this line works, without quoteData
+      // this.findTwoHighest(this.countFreq(data))
     })
+    this.lineOfBusinessService.getLinesOfBusiness().subscribe((data: LineOfBusiness[])=> {
+      // console.log("what data do we have here?", data)
+      businessData = data;
+      this.countFreq(quoteData, businessData)
+
+      //with one parameter in countFreq this works here
+      // this.findTwoHighest(this.countFreq(quoteData))
+    })
+    
   }
 }
 

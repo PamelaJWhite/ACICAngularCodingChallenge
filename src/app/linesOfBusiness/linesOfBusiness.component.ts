@@ -11,6 +11,7 @@ import { LineOfBusinessService } from '../lineOfBusiness.service';
 export class LineOfBusinessComponent implements OnInit {
   linesOfBusiness: LineOfBusiness[] = [];
 
+
   constructor(private lineOfBusinessService: LineOfBusinessService) { } 
 
   ngOnInit() {
