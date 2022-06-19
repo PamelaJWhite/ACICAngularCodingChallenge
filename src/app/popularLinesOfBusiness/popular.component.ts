@@ -42,6 +42,7 @@ export class PopularLinesOfBusinessComponent implements OnInit {
   secondPopular = "Second Most Popular"
   firstFreq;
   secondFreq;
+  compareArr;
 
    //this is likely NOT where I should call displaySums(), but it works
   itWorks = this.displayFreq();
@@ -59,37 +60,48 @@ export class PopularLinesOfBusinessComponent implements OnInit {
   countFreq(data) {
     // create variables to hold frequency of each line of business
     //likely need to change this to an object to return the whole thing
-    let generalLiability : number = 0;
-    let commercialProperty : number = 0;
-    let inlandMarine: number = 0;
-    let oceanMarine: number = 0;
-    let garage : number = 0;
     
+    // let generalLiability : number = 0;
+    // let commercialProperty : number = 0;
+    // let inlandMarine: number = 0;
+    // let oceanMarine: number = 0;
+    // let garage : number = 0;
+    
+    let dataObj = {
+    generalLiability : 0,
+    commercialProperty : 0,
+    inlandMarine: 0,
+    oceanMarine: 0,
+    garage : 0,
+    }
+
 
     // loop over quote data
     //for each line, increase count in  corresponding line of business variable
     //maybe change this to a switch statement for brevity
     for(let i = 0;i< data.length ;i++) {
       if(data[i].lineOfBusiness == 11 ){
-        generalLiability = generalLiability +1;
-        console.log("generalLiability inside: ", generalLiability)
+        dataObj.generalLiability = dataObj.generalLiability +1;
+        console.log("generalLiability inside: ", dataObj.generalLiability)
       }if(data[i].lineOfBusiness == 12 ) {
-        commercialProperty = commercialProperty +1
-        console.log("commercialProperty inside: ", commercialProperty)
+        dataObj.commercialProperty = dataObj.commercialProperty +1
+        console.log("commercialProperty inside: ", dataObj.commercialProperty)
       }if(data[i].lineOfBusiness == 13 ) {
-        inlandMarine = inlandMarine +1
-        console.log("inlandMarine inside: ", inlandMarine)
+        dataObj.inlandMarine = dataObj.inlandMarine +1
+        console.log("inlandMarine inside: ", dataObj.inlandMarine)
       }if(data[i].lineOfBusiness == 14 ) {
-        oceanMarine = oceanMarine +1
-        console.log("oceanMarine inside: ", oceanMarine)
+        dataObj.oceanMarine = dataObj.oceanMarine +1
+        console.log("oceanMarine inside: ", dataObj.oceanMarine)
       }if(data[i].lineOfBusiness == 15 ) {
-        garage = garage +1
-        console.log("garage inside: ", garage)
+        dataObj.garage = dataObj.garage +1
+        console.log("garage inside: ", dataObj.garage)
       }
     }
     
-    return console.log(" in countFreq() return")
+    return dataObj
   } 
+
+  // ------- find the two most popular
 
   findTwoHighest(freqCountArr){
   freqCountArr = Object.entries(freqCountArr)
@@ -98,19 +110,20 @@ export class PopularLinesOfBusinessComponent implements OnInit {
   // Go through each key in the bigObject:
   
   // hold the first object in the array, to be able to compare to it
-  let compareArr = freqCountArr[0]
-  console.log("compareArr before loop: ", compareArr)
+  this.compareArr = freqCountArr[0]
+  console.log("this.compareArr before loop: ", this.compareArr)
   for (let i = 0; i < freqCountArr.length; i++){
-    // if the value of the current second value is more than the compareArr 2nd value
-    if (freqCountArr[i][1] > compareArr[1] ) {
+    // if the value of the current second value is more than the this.compareArr 2nd value
+    if (freqCountArr[i][1] > this.compareArr[1] ) {
       // console.log(freqCountArr[i])
-      // redefine compareArr as the current array
-      compareArr = freqCountArr[i]
+      // redefine this.compareArr as the current array
+      this.compareArr = freqCountArr[i]
     
     }
   }
-  console.log("compareObject end of findTwoHighest: ", compareArr)
-  return compareArr
+  console.log("compareObject end of findTwoHighest: ", this.compareArr)
+  // this.firstFreq = this.compareArr[1]
+  return this.compareArr
 }
 
   // ----GET recent quotes data ----
@@ -124,17 +137,16 @@ export class PopularLinesOfBusinessComponent implements OnInit {
     this.recentQuotesService.getRecentQuotes().subscribe((data: RecentQuote[])=> {
       console.log("data, oh please be quote data:", data)
       //count up each of the lines of business
-      this.countFreq(data)
+      // this.countFreq(data)
   
-  
-
-    let freqCountArr = {
-      "house key": 14,
-      "skeleton key" : 8,
-      "car key": 2
-    }
+    // let freqCountArr = {
+    //   "house key": 14,
+    //   "skeleton key" : 8,
+    //   "car key": 2
+    // }
       //take the object from countFreq
-      this.findTwoHighest(freqCountArr)
+      this.firstFreq = this.findTwoHighest(this.countFreq(data))[1]
+      this.firstPopular = this.findTwoHighest(this.countFreq(data))[0]
   
     })
   }
