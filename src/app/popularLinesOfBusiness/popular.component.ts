@@ -6,6 +6,12 @@ import { LineOfBusinessService } from '../lineOfBusiness.service';
 import { RecentQuote } from '../RecentQuote';
 import { RecentQuotesService } from '../recentQuotes.service';
 
+//tried to use this when finding the highest using an array of objects
+//but couldn't pass freqCountArr from ngOnInit where data are gathered
+//to findTwoHighest
+// type ArrOfObjs = [{ 
+//   business: number;
+// }]
 
 // a component decorator
 @Component({
@@ -85,36 +91,27 @@ export class PopularLinesOfBusinessComponent implements OnInit {
     return console.log(" in countFreq() return")
   } 
 
-  
-  // find two 
-  findTwoHighest(){
-    let freqCountArr = [
-      {"house key" : 4},
-      {"skeleton key" : 8},
-      {"car key" : 2}
-    ]
+  findTwoHighest(freqCountArr){
+  freqCountArr = Object.entries(freqCountArr)
+    
+  console.log("freqCountArr after Object.entries: ", freqCountArr)
+  // Go through each key in the bigObject:
   
   // hold the first object in the array, to be able to compare to it
-  let compareObject = freqCountArr[0]
+  let compareArr = freqCountArr[0]
+  console.log("compareArr before loop: ", compareArr)
   for (let i = 0; i < freqCountArr.length; i++){
-    // if the value of the current object is more than the value of the compareObject
-    if (Object.values(freqCountArr[i])[0] > Object.values(compareObject)[0] ) {
-      console.log(Object.values(freqCountArr[i])[0])
-      // redefine compareObject as the current object
-      compareObject = freqCountArr[i]
-      console.log("begin value: ", compareObject)
+    // if the value of the current second value is more than the compareArr 2nd value
+    if (freqCountArr[i][1] > compareArr[1] ) {
+      // console.log(freqCountArr[i])
+      // redefine compareArr as the current array
+      compareArr = freqCountArr[i]
+    
     }
   }
-  console.log("compareObject end of findTwoHighest: ", compareObject)
-  return compareObject
+  console.log("compareObject end of findTwoHighest: ", compareArr)
+  return compareArr
 }
-
-
-
-
-
-    
-  
 
   // ----GET recent quotes data ----
 
@@ -128,8 +125,16 @@ export class PopularLinesOfBusinessComponent implements OnInit {
       console.log("data, oh please be quote data:", data)
       //count up each of the lines of business
       this.countFreq(data)
+  
+  
+
+    let freqCountArr = {
+      "house key": 14,
+      "skeleton key" : 8,
+      "car key": 2
+    }
       //take the object from countFreq
-      this.findTwoHighest()
+      this.findTwoHighest(freqCountArr)
   
     })
   }
