@@ -32,8 +32,8 @@ export class PopularLinesOfBusinessComponent implements OnInit {
   //data from each table - quote and business
   //would rather have the GET request do this 
   createPopData(quoteData: any, busData: any){
-    console.log("did I getcha all? quoteData and busData in createPopData: ", quoteData, busData)
-    //combine both sets of data to get only what we need: name, id/ lineOfBusiness number
+    // console.log("did I getcha all? quoteData and busData in createPopData: ", quoteData, busData)
+    //combine both sets of data to get only what we need: name, 
     //to create an array of only the data neeeded
     let popDataArr: any[] = [];
     //nested loop/ forEach
@@ -41,18 +41,14 @@ export class PopularLinesOfBusinessComponent implements OnInit {
     //forEach quote data line, 
     quoteData.forEach((element) =>{
       // console.log("element in forEach: ", element)
-      //a place to hold each line of popData
-      let lineOfPopData: any[] = [];
+
       //loop over bus data
       //inner loop is busData, bc we only need to look at this until we find the name that matches the quoteData id
       for (let i = 0; i < busData.length; i++){
         //find the bus data id that matches the quoteData 
         if(busData[i].id == element.lineOfBusiness){
-          //create a new array with only name and id
-          lineOfPopData = [busData[i].id, busData[i].name]
-          // console.log("lineOfPopData result: ", lineOfPopData)
-          //push that new array to a popDataArr
-          popDataArr.push(lineOfPopData)
+          //push the name  to a popDataArr
+          popDataArr.push(busData[i].name)
           // console.log("popDataArr after push: ", popDataArr)
         } 
       }
@@ -67,19 +63,21 @@ export class PopularLinesOfBusinessComponent implements OnInit {
     //create it from busData
 
     //declare countTable as an empty object
-    let countTable : [] = [];
+    let countTable : any[] = [];
     //loop over busData
     for (let i= 0; i < busData.length; i++){
       let name: string = busData[i].name
-      //create key value pair for countTable
-      countTable[name] = 0; 
+      // //create key value pair for countTable
+      // countTable[name] = 0; 
+      countTable.push([name, 0])
     }
-    console.log("countTable: ", countTable)
+    // console.log("countTable: ", countTable)
     return countTable
   }
 
   // ---- count frequency of each line of business
-  countFreq(data: any, busData: any) {
+  countFreq(data: any, table: any) {
+    console.log("table: ", table)
     // ---working build of dataObj -----
 
     //instad of hard-coding this dataObj,
@@ -106,32 +104,38 @@ export class PopularLinesOfBusinessComponent implements OnInit {
     // }
     // ----END hard-coded table; not from business data -----
 
-    // loop over quote data
-    //for each line, increase count in value of corresponding business property
-    //maybe change this to a switch statement for brevity
-    for(let i = 0;i< data.length ;i++) {
-
-      //this may need a loop inside a loop
-      //if the data[i].lineOfBusiness == busData[j].id 
-      //then add 1 to
-      //dataObj[busData[j].name]
-      //may have hard time finding how to get the variable busData[j].name
-      //OR could do a separate func to attach names of lineOfBusiness to  quoteData
-      //but I would hav liked to pull together one data object from both tables
-      if(data[i].lineOfBusiness == 11 ){
-        // dataObj.generalLiability = dataObj.generalLiability +1;
+     // ------hard coded sorting/ assignment of table 
+      // if(data[i].lineOfBusiness == 11 ){
+        // table.generalLiability = table.generalLiability +1;
         
-      }if(data[i].lineOfBusiness == 12 ) {
-        // dataObj.commercialProperty = dataObj.commercialProperty +1
-      }if(data[i].lineOfBusiness == 13 ) {
-        // dataObj.inlandMarine = dataObj.inlandMarine +1
-      }if(data[i].lineOfBusiness == 14 ) {
-        // dataObj.oceanMarine = dataObj.oceanMarine +1
-      }if(data[i].lineOfBusiness == 15 ) {
-        // dataObj.garage = dataObj.garage +1
+      // }if(data[i].lineOfBusiness == 12 ) {
+      //   // table.commercialProperty = table.commercialProperty +1
+      // }if(data[i].lineOfBusiness == 13 ) {
+      //   // table.inlandMarine = table.inlandMarine +1
+      // }if(data[i].lineOfBusiness == 14 ) {
+      //   // table.oceanMarine = table.oceanMarine +1
+      // }if(data[i].lineOfBusiness == 15 ) {
+      //   // table.garage = table.garage +1
+      // }
+    // }
+    // return dataObj
+      // ------ END hard coded sorting/ assignment of table 
+
+
+    // loop over data
+    //for each line, increase count in value of corresponding business type
+    for(let i = 0;i< data.length ;i++) {
+      //loop over the table to find the right spot
+      for (let j = 0; j < table.length; j++) {
+        if(data[i] == table[j][0]){
+          // console.log("data[i] = table[i][0]: ", data[i], table[j][0])
+          table[j][1] = table[j][1] + 1
+          console.log("table", table)
+          //how to make this stop once it's found the correct spot in the table?
+        }
       }
     }
-    // return dataObj
+    return table
   } 
 
   // ------- find the two most popular
@@ -182,7 +186,7 @@ export class PopularLinesOfBusinessComponent implements OnInit {
       businessData = data;
       this.countFreq(this.createPopData(quoteData, businessData), this.createCountTable(businessData))
 
-      //with one parameter in countFreq this works here
+      //!!!make this work with table returned from countFreq
       // this.findTwoHighest(this.countFreq(quoteData))
     })
     
