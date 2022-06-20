@@ -140,11 +140,8 @@ export class PopularLinesOfBusinessComponent implements OnInit {
 
   // ------- find the two most popular
 
-  findTwoHighest(freqCountArr) {
-    // convert the data object to an array of arrays
-    freqCountArr = Object.entries
-    
-    // define sorted variable
+  findTwoHighest(freqCountArr: any) {
+    // sort array by the number of each type
     let sorted =freqCountArr.sort((a, b) => b[1] - a[1])
 
     // assign values to properties based on sorted array or arrays
@@ -159,16 +156,12 @@ export class PopularLinesOfBusinessComponent implements OnInit {
   // ----GET recent quotes data ----
   quotes: RecentQuote[] = [];
 
-  // to structure? access?
   linesOfBusiness: LineOfBusiness[] = [];
-
 
   constructor(
     private recentQuotesService: RecentQuotesService,
     private lineOfBusinessService: LineOfBusinessService
   ) { } 
-  
-
 
   ngOnInit() {
     let quoteData: any;
@@ -184,12 +177,11 @@ export class PopularLinesOfBusinessComponent implements OnInit {
     this.lineOfBusinessService.getLinesOfBusiness().subscribe((data: LineOfBusiness[])=> {
       // console.log("what data do we have here?", data)
       businessData = data;
-      this.countFreq(this.createPopData(quoteData, businessData), this.createCountTable(businessData))
+      // this.countFreq(this.createPopData(quoteData, businessData), this.createCountTable(businessData))
 
       //!!!make this work with table returned from countFreq
-      // this.findTwoHighest(this.countFreq(quoteData))
+      this.findTwoHighest(this.countFreq(this.createPopData(quoteData, businessData), this.createCountTable(businessData)))
     })
-    
   }
 }
 
