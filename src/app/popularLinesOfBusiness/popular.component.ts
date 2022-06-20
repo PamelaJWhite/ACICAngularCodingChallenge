@@ -28,22 +28,43 @@ export class PopularLinesOfBusinessComponent implements OnInit {
   firstFreq;
   secondFreq;
 
+  createCountTable( busData: any) {
+    console.log("in createCountTable()")
+    // console.log("who's driving the busData? ", busData)
+
+    // //instad of hard-coding this countTable (formerly dataObj),
+    // //I want to create it from busData
+
+    // //declare countTable as an empty object
+    let countTable : [] = [];
+    // //loop over busData
+    for (let i= 0; i < busData.length; i++){
+      let name: string = busData[i].name
+      //create key value pair for countTable
+      countTable[name] = 0; 
+    }
+    // console.log("countTable: ", countTable)
+    return countTable
+  }
+
   // ---- count frequency of each line of business
   countFreq(data: any, busData: any) {
+    // ---working build of dataObj -----
     console.log("who's driving the busData? ", busData)
 
     //instad of hard-coding this dataObj,
     //I want to create it from busData
 
     //declare dataObj as an empty object
-    let dataObj : [] = [];
-    //loop over busData
-    for (let i= 0; i < busData.length; i++){
-      let name: string = busData[i].name
-      //create key value pair for dataObj
-      dataObj[name] = 0; 
-    }
-    console.log("dataObj2: ", dataObj)
+    // let dataObj : [] = [];
+    // //loop over busData
+    // for (let i= 0; i < busData.length; i++){
+    //   let name: string = busData[i].name
+    //   //create key value pair for dataObj
+    //   dataObj[name] = 0; 
+    // }
+    // console.log("dataObj: ", dataObj)
+// ------ end working dataObj ----
 
     // // hard-coded
     // let dataObj = {
@@ -64,6 +85,8 @@ export class PopularLinesOfBusinessComponent implements OnInit {
       //then add 1 to
       //dataObj[busData[j].name]
       //may have hard time finding how to get the variable busData[j].name
+      //OR could do a separate func to attach names of lineOfBusiness to  quoteData
+      //but I would hav liked to pull together one data object from both tables
       if(data[i].lineOfBusiness == 11 ){
         // dataObj.generalLiability = dataObj.generalLiability +1;
         
@@ -77,7 +100,7 @@ export class PopularLinesOfBusinessComponent implements OnInit {
         // dataObj.garage = dataObj.garage +1
       }
     }
-    return dataObj
+    // return dataObj
   } 
 
   // ------- find the two most popular
@@ -126,7 +149,8 @@ export class PopularLinesOfBusinessComponent implements OnInit {
     this.lineOfBusinessService.getLinesOfBusiness().subscribe((data: LineOfBusiness[])=> {
       // console.log("what data do we have here?", data)
       businessData = data;
-      this.countFreq(quoteData, businessData)
+      //createCountTable pulls out just the data needed to make the most popular list
+      this.countFreq(quoteData, this.createCountTable(businessData))
 
       //with one parameter in countFreq this works here
       // this.findTwoHighest(this.countFreq(quoteData))
