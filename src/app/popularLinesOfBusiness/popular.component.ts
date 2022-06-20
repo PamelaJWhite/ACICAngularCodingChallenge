@@ -28,29 +28,59 @@ export class PopularLinesOfBusinessComponent implements OnInit {
   firstFreq;
   secondFreq;
 
+  // create popular data object or array that combines
+  //data from each table - quote and business
+  //would rather have the GET request do this 
+  createPopData(quoteData: any, busData: any){
+    console.log("did I getcha all? quoteData and busData in createPopData: ", quoteData, busData)
+    //combine both sets of data to get only what we need: name, id/ lineOfBusiness number
+    //to create an array of only the data neeeded
+    let popDataArr: any[] = [];
+    //nested loop/ forEach
+    //loop over ALL quote data,bc each needs a name
+    //forEach quote data line, 
+    quoteData.forEach((element) =>{
+      // console.log("element in forEach: ", element)
+      //a place to hold each line of popData
+      let lineOfPopData: any[] = [];
+      //loop over bus data
+      //inner loop is busData, bc we only need to look at this until we find the name that matches the quoteData id
+      for (let i = 0; i < busData.length; i++){
+        //find the bus data id that matches the quoteData 
+        if(busData[i].id == element.lineOfBusiness){
+          //create a new array with only name and id
+          lineOfPopData = [busData[i].id, busData[i].name]
+          // console.log("lineOfPopData result: ", lineOfPopData)
+          //push that new array to a popDataArr
+          popDataArr.push(lineOfPopData)
+          // console.log("popDataArr after push: ", popDataArr)
+        } 
+      }
+    })
+    return popDataArr
+  }
+
+  //createCountTable makes an empty array
   createCountTable( busData: any) {
     console.log("in createCountTable()")
-    // console.log("who's driving the busData? ", busData)
+    //instad of hard-coding this countTable (formerly dataObj),
+    //create it from busData
 
-    // //instad of hard-coding this countTable (formerly dataObj),
-    // //I want to create it from busData
-
-    // //declare countTable as an empty object
+    //declare countTable as an empty object
     let countTable : [] = [];
-    // //loop over busData
+    //loop over busData
     for (let i= 0; i < busData.length; i++){
       let name: string = busData[i].name
       //create key value pair for countTable
       countTable[name] = 0; 
     }
-    // console.log("countTable: ", countTable)
+    console.log("countTable: ", countTable)
     return countTable
   }
 
   // ---- count frequency of each line of business
   countFreq(data: any, busData: any) {
     // ---working build of dataObj -----
-    console.log("who's driving the busData? ", busData)
 
     //instad of hard-coding this dataObj,
     //I want to create it from busData
@@ -66,7 +96,7 @@ export class PopularLinesOfBusinessComponent implements OnInit {
     // console.log("dataObj: ", dataObj)
 // ------ end working dataObj ----
 
-    // // hard-coded
+    // // ----hard-coded table; not from business data -----
     // let dataObj = {
     // generalLiability : 0,
     // commercialProperty : 0,
@@ -74,6 +104,7 @@ export class PopularLinesOfBusinessComponent implements OnInit {
     // oceanMarine: 0,
     // garage : 0,
     // }
+    // ----END hard-coded table; not from business data -----
 
     // loop over quote data
     //for each line, increase count in value of corresponding business property
@@ -149,8 +180,7 @@ export class PopularLinesOfBusinessComponent implements OnInit {
     this.lineOfBusinessService.getLinesOfBusiness().subscribe((data: LineOfBusiness[])=> {
       // console.log("what data do we have here?", data)
       businessData = data;
-      //createCountTable pulls out just the data needed to make the most popular list
-      this.countFreq(quoteData, this.createCountTable(businessData))
+      this.countFreq(this.createPopData(quoteData, businessData), this.createCountTable(businessData))
 
       //with one parameter in countFreq this works here
       // this.findTwoHighest(this.countFreq(quoteData))
