@@ -15,10 +15,6 @@ export class RecentQuotesService {
 
   private recentQuotesUrl = 'api/recentQuotes';  // URL to web api
 
-  // // ! try adding this to access lines of Business, too
-  // private lineOfBusinessUrl = 'api/linesOfBusiness';  // URL to web api
-  
-
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };

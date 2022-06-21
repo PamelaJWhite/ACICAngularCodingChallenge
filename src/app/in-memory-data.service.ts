@@ -24,16 +24,10 @@ export class InMemoryDataService implements InMemoryDbService {
       { id: 105, quoteNumber: 'AC127PC', lineOfBusiness: 15 },
       { id: 106, quoteNumber: 'AC125PC', lineOfBusiness: 13 },
       { id: 107, quoteNumber: 'AC126PC', lineOfBusiness: 13 },
-      { id: 108, quoteNumber: 'AC127PC', lineOfBusiness: 15 },
-      // PJW added more to test
-      { id: 109, quoteNumber: 'AC127PC', lineOfBusiness: 13 },
-      { id: 110, quoteNumber: 'AC127PC', lineOfBusiness: 12 },
-      { id: 111, quoteNumber: 'AC127PC', lineOfBusiness: 12 },
-      { id: 112, quoteNumber: 'AC127PC', lineOfBusiness: 12 },
-      { id: 113, quoteNumber: 'AC127PC', lineOfBusiness: 12 },
+      { id: 108, quoteNumber: 'AC127PC', lineOfBusiness: 15 }
     ];
 
-    //PJW added recentQuotes to the return to be able to access elsewhere
+    //added recentQuotes to the return to be able to access elsewhere
     return {linesOfBusiness, recentQuotes};
   }
 

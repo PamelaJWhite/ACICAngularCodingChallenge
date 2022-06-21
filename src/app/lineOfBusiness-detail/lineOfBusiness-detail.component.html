@@ -1,10 +1,8 @@
 <div *ngIf="lineOfBusiness">
   <h2>{{lineOfBusiness.name | uppercase}} Details</h2>
-  <!-- same as react - this is the id of the lineOfBusiness -->
   <div><span>id: </span>{{lineOfBusiness.id}}</div>
   <div>
     <label for="lineOfBusiness-name">Line Of Business Name: </label>
-    <!-- ? [(ngModel)] calling a function?-->
     <input id="lineOfBusiness-name" [(ngModel)]="lineOfBusiness.name" placeholder="Line Of Business Name"/>
     <br />
     <label for="lineOfBusiness-description">Line Of Business Description: </label>

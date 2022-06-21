@@ -3,7 +3,6 @@
   <input #searchBox id="search-box" (input)="search(searchBox.value)" />
 
   <ul class="search-result">
-    <!-- ? a call to.. what? -->
     <li *ngFor="let lineOfBusiness of linesOfBusiness$ | async" >
       <a routerLink="/detail/{{lineOfBusiness.id}}">
         {{lineOfBusiness.name}}

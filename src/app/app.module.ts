@@ -14,7 +14,7 @@ import { LineOfBusinessDetailComponent } from './lineOfBusiness-detail/lineOfBus
 import { LineOfBusinessComponent } from './linesOfBusiness/linesOfBusiness.component';
 import { LineOfBusinessSearchComponent } from './lineOfBusiness-search/lineOfBusiness-search.component';
 import { MessagesComponent } from './messages/messages.component';
-// added my component to those imported
+// added popular component to those imported
 import { PopularLinesOfBusinessComponent } from './popularLinesOfBusiness/popular.component';
 
 @NgModule({
